@@ -31,6 +31,7 @@ namespace HomeWork_10
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             UsersBase.getUsersFromFile();
             ListUser.ItemsSource = UsersBase.users;
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -55,8 +56,10 @@ namespace HomeWork_10
         private void ChkBoxStartBot_Checked(object sender, RoutedEventArgs e)
         {
             bot = new Bot();
-            command = new Command(bot,StatusTxt);
+            command = new Command(bot,StatusTxt,this);
             command.Start();
         }
+
+
     }
 }

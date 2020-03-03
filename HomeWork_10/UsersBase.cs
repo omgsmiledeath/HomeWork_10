@@ -37,24 +37,28 @@ namespace HomeWork_10
         /// </summary>
         /// <param name="user">Пользователь телеграмма</param>
         /// <param name="e">сообщение из телеграма</param>
-        static public void putUsersMessage (TelegramUser user, Telegram.Bot.Args.MessageEventArgs e)
+        static public void putUsersMessage (TelegramUser user, Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
         {
-            
 
-            if (!users.Contains(user)) users.Add(user);
+            w.Dispatcher.Invoke(() =>
+            {
+                if (!users.Contains(user)) users.Add(user);
 
-            users[users.IndexOf(user)].addMessage($"{e.Message.Text}");
+                users[users.IndexOf(user)].addMessage($"{e.Message.Text}");
+                
+            });
             saveBase();
+
         }
 
         /// <summary>
         /// Сохранение сообщения
         /// </summary>
         /// <param name="e"></param>
-        static public void Saver(Telegram.Bot.Args.MessageEventArgs e)
+        static public void Saver(Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
         {
             var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.Username);
-            UsersBase.putUsersMessage(user, e);
+            UsersBase.putUsersMessage(user, e,w);
         }
         /// <summary>
         /// Сохранить базу

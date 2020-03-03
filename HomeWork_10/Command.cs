@@ -16,6 +16,8 @@ namespace HomeWork_10
 {
     public class Command
     {
+        private MainWindow w;
+        
         private Bot bot;
         private TextBlock status;
         /// <summary>
@@ -27,6 +29,7 @@ namespace HomeWork_10
             {
                 //Console.WriteLine("~~Пытаюсь подключится~~");
                 status.Text = "Пытаюсь подключится";
+                status.Foreground = Brushes.Black;
                 var u =  await bot.TelegramBot.TestApiAsync();
                // Console.WriteLine(u);
                 if (u)
@@ -241,7 +244,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Document);
-            UsersBase.Saver(e);
+            UsersBase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Document);
@@ -260,7 +263,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Audio);
-            UsersBase.Saver(e);
+            UsersBase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Audio);
@@ -279,7 +282,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Sticker);
-            UsersBase.Saver(e);
+            UsersBase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Sticker);
@@ -298,7 +301,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Voice);
-            UsersBase.Saver(e);
+            UsersBase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Voice);
@@ -317,7 +320,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Photo);
-            UsersBase.Saver(e);
+            UsersBase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Photo);
@@ -458,8 +461,11 @@ namespace HomeWork_10
         {
             string text = $"{DateTime.Now.ToLongTimeString()}: {e.Message.Chat.FirstName} {e.Message.Chat.Id} {e.Message.Text}";
             Console.WriteLine($"{e.Message.Chat.Username}:{e.Message.Text}");
-            var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.Username);
-            UsersBase.putUsersMessage(user, e);
+
+                var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.Username);
+                UsersBase.putUsersMessage(user, e,w);
+
+            
             if (e.Message.Text == @"/export")
             {
 
@@ -638,10 +644,11 @@ namespace HomeWork_10
             return result;
         }
 
-        public Command (Bot bot,TextBlock textBlock)
+        public Command (Bot bot,TextBlock textBlock,MainWindow w)
         {
             this.bot = bot;
             this.status = textBlock;
+            this.w = w;
         }
     }
 }

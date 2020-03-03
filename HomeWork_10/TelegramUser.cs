@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HomeWork_10
 {
-    class TelegramUser : IEquatable <TelegramUser>
+    class TelegramUser : INotifyPropertyChanged,IEquatable <TelegramUser>
     {
         /// <summary>
         /// Коснтруктор класса пользователь телеграмм
@@ -18,7 +19,7 @@ namespace HomeWork_10
         {
             this.id = id;
             this.name = name;
-            messages = new List<string>();
+            Messages = new ObservableCollection<string>();
 
         }
         private long id;
@@ -28,7 +29,9 @@ namespace HomeWork_10
         public long Id
         {
             get { return this.id; }
-            set { id = value; }
+            set { id = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Id)));
+            }
         }
 
         private string name;
@@ -38,21 +41,31 @@ namespace HomeWork_10
         public string Name
         {
             get { return this.name; }
-            set { this.name = value; }
+            set {
+                this.name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Name)));
+            }
         }
 
+        public ObservableCollection<string> Messages
+        {
+            get;set;
+        }
 
+    
 
-        /// <summary>
-        /// Cписок сообщений пользователя
-        /// </summary>
-        public List<string> messages;
+       
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Добавление сообщения в список
         /// </summary>
         /// <param name="msg"></param>
-        public void addMessage(string msg) => messages.Add(msg);
+        public void addMessage(string msg) {
+            Messages.Add(msg);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Messages)));
+        }
 
 
 
