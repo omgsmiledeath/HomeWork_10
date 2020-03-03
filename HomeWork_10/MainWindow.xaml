@@ -1,12 +1,35 @@
-﻿<Window x:Class="HomeWork_10.MainWindow"
+﻿<Window x:Name="load" x:Class="HomeWork_10.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HomeWork_10"
         mc:Ignorable="d"
+        Loaded="Load_Loaded"
+        Closed="Load_Closed"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="689*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Content="Принять токен"
+                HorizontalAlignment="Center" Margin="5" 
+                VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBox x:Name="tokenTxt" Grid.Column="1" HorizontalAlignment="Left" 
+                     Height="23" Margin="35,11,0,0" 
+                     TextWrapping="Wrap" Text="Введите токен сюда " 
+                     VerticalAlignment="Top" Width="547"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox x:Name="ChkBoxStartBot" Content="Включить бота" VerticalAlignment="Center"
+                      Grid.Column="1" 
+                      Margin="5" Checked="ChkBoxStartBot_Checked"/>
+                <TextBlock x:Name="StatusTxt" Margin="5" Text="Статус" VerticalAlignment="Center"/>
+            </StackPanel>
+            <ListBox x:Name="ListUser" Height="189">
+                
+            </ListBox>
+        </StackPanel>
     </Grid>
 </Window>
