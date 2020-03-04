@@ -17,35 +17,30 @@ namespace HomeWork_10
     public class Command
     {
         private MainWindow w;
-        
+        public UsersBase userbase;
         private Bot bot;
         private TextBlock status;
         /// <summary>
         /// Запуск команд бота
         /// </summary>
-        public async void Start()
+        public async Task Start()
         {
             try
             {
-                //Console.WriteLine("~~Пытаюсь подключится~~");
                 status.Text = "Пытаюсь подключится";
                 status.Foreground = Brushes.Black;
-                var u =  await bot.TelegramBot.TestApiAsync();
-               // Console.WriteLine(u);
+                var u = await bot.TelegramBot.TestApiAsync();
+     
                 if (u)
                 {
-                    //Console.ForegroundColor = ConsoleColor.Green;
-                    //..Console.WriteLine("Соединение установленно");
-                    //Console.ForegroundColor = ConsoleColor.White;
+
                     status.Text = "Успешно";
                     status.Foreground = Brushes.Green;
                     ProxyParser.SaveCurrentProxy();
                 }
                 else
                 {
-                    //Console.ForegroundColor = ConsoleColor.Red;
-                    //Console.WriteLine("Введен не верный токен для телеграм бота");
-                    //Console.ForegroundColor = ConsoleColor.White;
+                   
                     status.Text = "Не верный токен";
                     status.Foreground = Brushes.Red;
                 }
@@ -54,8 +49,7 @@ namespace HomeWork_10
                 bot.TelegramBot.OnCallbackQuery += TypeOfFile;
 
                 bot.TelegramBot.StartReceiving();
-                //Console.ReadKey();
-                //bot.TelegramBot.StopReceiving();
+                w.gridSendMessage.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -64,7 +58,7 @@ namespace HomeWork_10
                 ProxyParser.BadProxyRemove();
                 bot.setBotWithProxy();
                 Start();
-                return;
+                return  ;
             }
 
         }
@@ -244,7 +238,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Document);
-            UsersBase.Saver(e,w);
+            userbase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Document);
@@ -263,7 +257,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Audio);
-            UsersBase.Saver(e,w);
+            userbase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Audio);
@@ -282,7 +276,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Sticker);
-            UsersBase.Saver(e,w);
+            userbase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Sticker);
@@ -301,7 +295,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Voice);
-            UsersBase.Saver(e,w);
+            userbase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Voice);
@@ -320,7 +314,7 @@ namespace HomeWork_10
         {
             var mess = e.Message.Text;
             string path = CreaterPath(e.Message.Chat.Id, mess, MessageType.Photo);
-            UsersBase.Saver(e,w);
+            userbase.Saver(e,w);
             if (File.Exists(path))
             {
                 Send(path, e.Message.Chat.Id, MessageType.Photo);
@@ -427,7 +421,7 @@ namespace HomeWork_10
         /// <param name="e">входящее сообщение из телеграма</param>
         void LocationSeaker(Telegram.Bot.Args.MessageEventArgs e)
         {
-            Console.WriteLine($"{e.Message.Location.Latitude} - {e.Message.Location.Longitude}");
+           
             var loc = (Latitude:e.Message.Location.Latitude, Longitude: e.Message.Location.Longitude);
             SaveSerializeFile(JsonConvert.SerializeObject(loc),
                 $"{ e.Message.MessageId}",
@@ -459,11 +453,11 @@ namespace HomeWork_10
         /// <param name="e">входящее сообщение из телеграма</param>
         void MessageSeaker(Telegram.Bot.Args.MessageEventArgs e)
         {
-            string text = $"{DateTime.Now.ToLongTimeString()}: {e.Message.Chat.FirstName} {e.Message.Chat.Id} {e.Message.Text}";
-            Console.WriteLine($"{e.Message.Chat.Username}:{e.Message.Text}");
+           
+  
 
-                var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.Username);
-                UsersBase.putUsersMessage(user, e,w);
+                var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.FirstName);
+                userbase.putUsersMessage(user, e,w);
 
             
             if (e.Message.Text == @"/export")
@@ -644,11 +638,12 @@ namespace HomeWork_10
             return result;
         }
 
-        public Command (Bot bot,TextBlock textBlock,MainWindow w)
+        public Command (Bot bot,UsersBase usersBase,TextBlock textBlock,MainWindow w)
         {
             this.bot = bot;
             this.status = textBlock;
             this.w = w;
+            this.userbase = usersBase;
         }
     }
 }

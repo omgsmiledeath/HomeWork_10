@@ -9,18 +9,22 @@ using System.Collections.ObjectModel;
 
 namespace HomeWork_10
 {
-    static class UsersBase
+     public class UsersBase
     {
+        public UsersBase()
+        {
+            getUsersFromFile();
+        }
         /// <summary>
         /// Лист пользователей бота
         /// </summary>
-        public static ObservableCollection<TelegramUser> users;
+        private ObservableCollection<TelegramUser> users;
 
         /// <summary>
         /// Загрузка базы пользователей
         /// </summary>
         /// <param name="path">путь до файла</param>
-        static public void getUsersFromFile(string path ="users.txt")
+         public void getUsersFromFile(string path ="users.txt")
         {
             if (!File.Exists(path))
             {
@@ -32,19 +36,23 @@ namespace HomeWork_10
             if (users == null) users = new ObservableCollection<TelegramUser>();
         }
 
+        public ObservableCollection<TelegramUser> GetUsers()
+        {
+            return users;
+        }
         /// <summary>
         /// Метод по добавлениб сообщений пользователя
         /// </summary>
         /// <param name="user">Пользователь телеграмма</param>
         /// <param name="e">сообщение из телеграма</param>
-        static public void putUsersMessage (TelegramUser user, Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
+          public void putUsersMessage (TelegramUser user, Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
         {
 
             w.Dispatcher.Invoke(() =>
             {
                 if (!users.Contains(user)) users.Add(user);
 
-                users[users.IndexOf(user)].addMessage($"{e.Message.Text}");
+                users[users.IndexOf(user)].addMessage($"{e.Message.Date:g} - {e.Message.Text}");
                 
             });
             saveBase();
@@ -55,15 +63,15 @@ namespace HomeWork_10
         /// Сохранение сообщения
         /// </summary>
         /// <param name="e"></param>
-        static public void Saver(Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
+         public void Saver(Telegram.Bot.Args.MessageEventArgs e,MainWindow w)
         {
             var user = new TelegramUser(e.Message.Chat.Id, e.Message.Chat.Username);
-            UsersBase.putUsersMessage(user, e,w);
+            putUsersMessage(user, e,w);
         }
         /// <summary>
         /// Сохранить базу
         /// </summary>
-        static public void saveBase()
+         public void saveBase()
         {
             string json = JsonConvert.SerializeObject(users);
             File.WriteAllText("users.txt", json);

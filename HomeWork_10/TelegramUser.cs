@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork_10
 {
-    class TelegramUser : INotifyPropertyChanged,IEquatable <TelegramUser>
+    public class TelegramUser : INotifyPropertyChanged,IEquatable <TelegramUser>
     {
         /// <summary>
         /// Коснтруктор класса пользователь телеграмм
@@ -63,7 +63,7 @@ namespace HomeWork_10
         /// </summary>
         /// <param name="msg"></param>
         public void addMessage(string msg) {
-            Messages.Add(msg);
+            Messages.Insert(0,msg);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Messages)));
         }
 

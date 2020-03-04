@@ -28,8 +28,6 @@ namespace HomeWork_10
         {
             ProxyParser.LoadProxy();
             this.setBotWithProxy();
-            UsersBase.getUsersFromFile();
-
         }
 
         /// <summary>
