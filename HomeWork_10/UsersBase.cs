@@ -52,8 +52,11 @@ namespace HomeWork_10
             {
                 if (!users.Contains(user)) users.Add(user);
 
+                users[users.IndexOf(user)].Name = e.Message.Chat.FirstName;
                 users[users.IndexOf(user)].addMessage($"{e.Message.Date:g} - {e.Message.Text}");
-                
+                var temp = users[users.IndexOf(user)];
+                users.RemoveAt(users.IndexOf(user));
+                users.Insert(0,temp);
             });
             saveBase();
 

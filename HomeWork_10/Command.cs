@@ -34,7 +34,7 @@ namespace HomeWork_10
                 if (u)
                 {
 
-                    status.Text = "Успешно";
+                    status.Text = "Запущен";
                     status.Foreground = Brushes.Green;
                     ProxyParser.SaveCurrentProxy();
                 }
@@ -50,6 +50,7 @@ namespace HomeWork_10
 
                 bot.TelegramBot.StartReceiving();
                 w.gridSendMessage.Visibility = Visibility.Visible;
+                w.infoTxt1.Visibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {

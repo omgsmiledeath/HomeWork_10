@@ -17,9 +17,10 @@
         Title="Settings" MinHeight="150" MinWidth="500" Height="312" Width="521" Loaded="Window_Loaded">
 
 
-    <StackPanel Orientation="Vertical" Margin="3">
+    <StackPanel Orientation="Vertical" Margin="3" Background="#FF9D6AF7">
 
         <!--Чекбокс включения отображения панель токена-->
+       
         <CheckBox x:Name="tokenChkBox" Margin="10" 
                       VerticalAlignment="Center"
                       Checked="TokenChkBox_Checked" Unchecked="TokenChkBox_Unchecked">
@@ -28,7 +29,10 @@
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
                 </TextBlock.Background>
             </TextBlock>
+            
         </CheckBox>
+        
+        
         <!--Панель токена-->
         <StackPanel x:Name="TokenPanel"
                     Orientation="Horizontal" Margin="10" Visibility="Visible">
@@ -63,8 +67,10 @@
 
                 </StackPanel>
 
-
+                <Button x:Name="exitButton" Click="ExitButton_Click"
+                     Margin="70 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Center">Закрыть</Button>
             </StackPanel>
+            
         </StackPanel>
 
     </StackPanel>

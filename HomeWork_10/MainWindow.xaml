@@ -15,28 +15,45 @@
         mc:Ignorable="d"
         Loaded="Load_Loaded"
         Closed="Load_Closed"
-        Title="MainWindow" MinHeight="450" MinWidth="600" Height="261" Width="435">
-    <Grid Background="BlanchedAlmond">
+        Title="MainWindow" MinHeight="450" MinWidth="600" Height="261" Width="435" WindowStyle="None" MouseLeftButtonDown="Load_MouseLeftButtonDown">
+    <Grid Background="#FF9D6AF7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--Левая панель-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0"  Margin="10"  Orientation="Vertical" Background="Gainsboro">
-
-            <Button Grid.Column="0" 
-                HorizontalAlignment="Center" Margin="2 2 2 10" 
-                VerticalAlignment="Top"  Click="Button_Click">
-                <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="SettingsTransfer" Margin="0 0 5 0" />
-                    <TextBlock Text="Настройки" TextWrapping="Wrap"/>
-                </StackPanel>
+        <!--Шапка-->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="#FF9D6AF7">
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" >
+            <Button x:Name="settingsButton"
+                HorizontalAlignment="Center"  Background="{x:Null}"
+                VerticalAlignment="Bottom"  Click="Button_Click"
+                BorderThickness="0" Margin="0 0 5 0" Height="50" Width="67">
+                <materialDesign:PackIcon Kind="SettingsTransfer"  
+                                         Foreground="{DynamicResource MaterialDesignBody}" Height="30" Width="29"
+                                         />
             </Button>
+            <Button x:Name="exitButton"
+                HorizontalAlignment="Center"  Background="{x:Null}"
+                VerticalAlignment="Top"  Click="ExitButton_Click"
+                BorderThickness="0" Height="50">
+                <materialDesign:PackIcon Kind="ExitRun"  Foreground="{DynamicResource MaterialDesignBody}" Height="40" Width="30"/>
+            </Button>
+
+        </StackPanel>
+        </Grid>
+        <!--Левая панель-->
+        <StackPanel Grid.Column="0" Grid.Row="1"  Margin="10"  Orientation="Vertical" Background="Gainsboro">
+
+
 
             <Button x:Name="ButtonStartBot" HorizontalAlignment="Center"
                       Grid.Column="1" VerticalAlignment="Top"
-                      Click="ButtonStartBot_Click" Height="47" >
+                      Click="ButtonStartBot_Click" Height="47" Margin="0 2 0 0" >
                 <StackPanel Orientation="Horizontal" Height="39" Width="92">
                     <materialDesign:PackIcon Kind="PowerStandby" Margin="0 0 5 0" Height="39" Width="20" />
                     <TextBlock Text="Включить бота" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="70" />
@@ -56,7 +73,7 @@
 
         <!--Правая панель-->
 
-        <Grid Grid.Column="1" Margin="10" Background="Gainsboro">
+        <Grid Grid.Column="1" Margin="10" Background="Gainsboro" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
@@ -66,9 +83,8 @@
                 <RowDefinition Height="Auto" MinHeight="211"/>
             </Grid.RowDefinitions>
 
-
+            <!--Лист пользователей-->
             <ListBox x:Name="ListUser" Grid.Column="0" Margin="2" >
-                <!--Лист пользователей-->
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,2">
@@ -88,7 +104,7 @@
 
             </ListBox>
             <!--Лист сообщений-->
-            <ListBox Grid.Column="1" x:Name="MessUser"  Margin="2"
+            <ListBox Grid.Column="1" x:Name="MessUser"  Margin="2" 
                          ItemsSource="{Binding ElementName=ListUser, 
                                             Path=SelectedItem.Messages}">
                 <ListBox.ItemTemplate>
@@ -99,27 +115,39 @@
             </ListBox>
             <!--Область приложения с отправкой сообщений-->
 
-            <Grid x:Name="gridSendMessage" Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed">
+            <Grid x:Name="gridSendMessage" Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="21*"/>
-                    <RowDefinition Height="100*"/>
+                    <RowDefinition Height="50*"/>
                     <RowDefinition Height="179*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                 </Grid.ColumnDefinitions>
+
                 <TextBlock Text="Отправить сообщение выбранному пользователю"       
                            Grid.Row="0" HorizontalAlignment="Center" />
-                <TextBox x:Name="txtSend" Grid.Row="1" Margin="20 10 20 0"/>
-                <Button x:Name="ButtonSendMessage" Content="Отправить" Grid.Row="2" Width="100" Height="30" 
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <materialDesign:PackIcon Kind="Chat" VerticalAlignment="Center" Margin="10 0 0 0" />
+                    <TextBox x:Name="txtSend" Margin="0 0 10 0 " Width="250" TextWrapping="Wrap"
+                             VerticalAlignment="Center"/>
+                    <Button x:Name="ButtonSendMessage"  Height="30" 
                         VerticalAlignment="Top" HorizontalAlignment="Center"
-                        Margin="0 10 0 0" Click="ButtonSendMessage_Click"/>
+                        Margin="0 10 0 0" Click="ButtonSendMessage_Click">
+                        <materialDesign:PackIcon Kind="MessageText" />
+                    </Button>
+                </StackPanel>
+                <Button x:Name="ButtonSendFile" Click="ButtonSendFile_Click" 
+                    VerticalAlignment="Top" Margin="20 10 0 0" Grid.Row="2"
+                            Content="Отправить файл" HorizontalAlignment="Right"/>
+
 
             </Grid>
 
-            <TextBlock Text="Чтоб начать отправлять сообщения включите бота"
-                       Grid.ColumnSpan="2" Grid.Row="1"
+            <TextBlock x:Name="infoTxt1" Text="Чтоб начать отправлять сообщения включите бота"
+                       Grid.ColumnSpan="2" Grid.Row="2"
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                       FontSize="30" TextWrapping="Wrap" Height="72" Margin="26,0" Width="370"/>
+                       FontSize="28" TextWrapping="Wrap" FontStyle="Oblique"  Margin="26,0"/>
 
         </Grid>
     </Grid>
