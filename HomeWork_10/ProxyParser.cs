@@ -31,7 +31,7 @@ namespace HomeWork_10
                     MatchCollection mc = regex.Matches(htmp);
                     if (mc.Count > 0)
                     {
-                        Console.WriteLine("Добавление новых прокси в лист");
+
                         foreach (Match e in mc)
                         {
                             string[] temp = e.Value.Split(new string[] { @"</td><td>" }, StringSplitOptions.None);
@@ -41,14 +41,13 @@ namespace HomeWork_10
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("Еще попытка");
+
                     getProxyList();
                     return;
                 }
                 
             };
-            Console.WriteLine("Прокси лист составлен");
+
         }
 
         /// <summary>
@@ -81,7 +80,6 @@ namespace HomeWork_10
             {
                 string json = File.ReadAllText("proxy.txt");
                 proxylist.Add(JsonConvert.DeserializeObject<WebProxy>(json));
-                Console.WriteLine("Загружена сохраненная прокся");
             }
             
             else getProxyList();

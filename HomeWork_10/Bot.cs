@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using System.IO;
+using System.Windows;
+
 namespace HomeWork_10
 {
     public class Bot
@@ -38,7 +40,13 @@ namespace HomeWork_10
             Console.WriteLine("Создаем бота");
             var httpCliendHandler = new HttpClientHandler() { Proxy = ProxyParser.ProxyList[0] };
             HttpClient hc = new HttpClient(httpCliendHandler);
-            TelegramBot = new TelegramBotClient(getToken(),hc);
+
+                TelegramBot = new TelegramBotClient(getToken(), hc);
+            
+            
+                
+           
+            
         }
 
         /// <summary>

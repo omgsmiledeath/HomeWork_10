@@ -37,6 +37,12 @@ namespace HomeWork_10
                     status.Text = "Запущен";
                     status.Foreground = Brushes.Green;
                     ProxyParser.SaveCurrentProxy();
+                    bot.TelegramBot.OnMessage += MessageParser;
+                    bot.TelegramBot.OnCallbackQuery += TypeOfFile;
+
+                    bot.TelegramBot.StartReceiving();
+                    w.gridSendMessage.Visibility = Visibility.Visible;
+                    w.infoTxt1.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -45,12 +51,7 @@ namespace HomeWork_10
                     status.Foreground = Brushes.Red;
                 }
 
-                bot.TelegramBot.OnMessage += MessageParser;
-                bot.TelegramBot.OnCallbackQuery += TypeOfFile;
-
-                bot.TelegramBot.StartReceiving();
-                w.gridSendMessage.Visibility = Visibility.Visible;
-                w.infoTxt1.Visibility = Visibility.Hidden;
+                
             }
             catch (Exception ex)
             {
@@ -59,8 +60,10 @@ namespace HomeWork_10
                 ProxyParser.BadProxyRemove();
                 bot.setBotWithProxy();
                 Start();
-                return  ;
+                return;
+                                
             }
+
 
         }
 

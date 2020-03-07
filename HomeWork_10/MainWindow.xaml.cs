@@ -77,9 +77,17 @@ namespace HomeWork_10
         {
             if (File.Exists("token.txt"))
             {
-                bot = new Bot();
-                command = new Command(bot, usersBase, StatusTxt, this);
-                command.Start();
+                try
+                {
+                    bot = new Bot();
+                    command = new Command(bot, usersBase, StatusTxt, this);
+                    command.Start();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Введен токен не верного формата");
+                }
+               
             }
             else
             {

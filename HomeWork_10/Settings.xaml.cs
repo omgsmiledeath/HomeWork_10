@@ -56,17 +56,37 @@ namespace HomeWork_10
         private void TokenButton_Click(object sender, RoutedEventArgs e)
         {
             string token = TokenText.Text;
-
-            if(token.Count() != 46)
-                {
-                MessageBox.Show($"Введее не правильный токен - {token.Count()}");
-                return;
-            }
             using (StreamWriter sw = new StreamWriter("token.txt"))
             {
                 sw.WriteLine(token);
             }
-            MessageBox.Show("Токен принят");
+
+            try
+            {
+                Bot bot = new Bot();
+                MessageBox.Show("Токен принят");
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"Введный токен, не верного формата");
+            }
+            
+
+
+
+
+
+            //if(token.Count() != 46)
+            //    {
+            //    MessageBox.Show($"Введее не правильный токен - {token.Count()}");
+            //    return;
+            //}
+            //using (StreamWriter sw = new StreamWriter("token.txt"))
+            //{
+            //    sw.WriteLine(token);
+            //}
+
         }
 
         /// <summary>
